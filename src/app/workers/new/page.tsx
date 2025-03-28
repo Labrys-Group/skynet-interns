@@ -13,13 +13,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { X, FileUp, LinkIcon, Plus } from "lucide-react"
 import { extractSkillsFromResume } from "@/lib/api-utils"
+import { AlertDialog, AlertDialogContent, AlertDialogFooter, AlertDialogHeader } from "../../../components/ui/alert-dialog"
+import { AlertDialogDescription, AlertDialogTitle } from "@radix-ui/react-alert-dialog"
 
 export default function NewWorkerPage() {
   const router = useRouter()
   const [resumeText, setResumeText] = useState("")
-  const [skills, setSkills] = useState<string[]>([])
   const [newSkill, setNewSkill] = useState("")
+  const [skills, setSkills] = useState<string[]>([])
+  const [workerName, setWorkerName] = useState("")
   const [loading, setLoading] = useState(false)
+  const [showDialog, setShowDialog] = useState(false)
 
   const handleExtractSkills = async () => {
     if (!resumeText) return
@@ -48,18 +52,19 @@ export default function NewWorkerPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // In a real app, this would submit to the API
-    console.log({ resumeText })
+    
     const response = await fetch('http://localhost:3000/api/worker/resume', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ message: resumeText }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: resumeText })
     })
-
-    console.log(response);
-    router.push("/workers")
+    
+    if (response.ok) {
+      const data = await response.json()
+      setWorkerName(data.name)
+      setSkills(data.skills)
+      setShowDialog(true)
+    }
   }
 
   const handleCancel = () => {
@@ -255,6 +260,26 @@ export default function NewWorkerPage() {
             </Card>
           </TabsContent>
         </Tabs>
+        {/* Alert Dialog */}
+      <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Worker Added Successfully</AlertDialogTitle>
+            <AlertDialogDescription>
+              <p><strong>Name:</strong> {workerName}</p>
+              <p><strong>Skills:</strong></p>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {skills.map(skill => (
+                  <Badge key={skill}>{skill}</Badge>
+                ))}
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <Button onClick={() => router.push("/workers")}>OK</Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       </div>
     </div>
   )

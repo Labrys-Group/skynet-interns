@@ -14,5 +14,5 @@ export async function POST(request: NextRequest) {
 
   const data = await responseFromEliza.json()
 
-  return NextResponse.json({ message: data })
+  return NextResponse.json({ data })
 }

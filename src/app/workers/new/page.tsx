@@ -16,9 +16,6 @@ import { extractSkillsFromResume } from "@/lib/api-utils"
 
 export default function NewWorkerPage() {
   const router = useRouter()
-  const [name, setName] = useState("")
-  const [title, setTitle] = useState("")
-  const [department, setDepartment] = useState("")
   const [resumeText, setResumeText] = useState("")
   const [skills, setSkills] = useState<string[]>([])
   const [newSkill, setNewSkill] = useState("")
@@ -49,10 +46,19 @@ export default function NewWorkerPage() {
     setSkills(skills.filter((s) => s !== skill))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     // In a real app, this would submit to the API
-    console.log({ name, title, department, skills })
+    console.log({ resumeText })
+    const response = await fetch('http://localhost:3000/api/worker/resume', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message: resumeText }),
+    })
+
+    console.log(response);
     router.push("/workers")
   }
 
@@ -85,87 +91,21 @@ export default function NewWorkerPage() {
               <Card className="border-labrys-lightgray bg-labrys-darkgray card-hover">
                 <CardHeader>
                   <CardTitle className="text-labrys-green">Worker Information</CardTitle>
-                  <CardDescription>Enter the worker's basic information and skills</CardDescription>
+                  <CardDescription>Enter the worker's CV below</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <div className="flex flex-col gap-2">
-                      <Label htmlFor="name">Full Name</Label>
-                      <Input
-                        id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="John Doe"
-                        required
-                        className="bg-labrys-black border-labrys-lightgray focus:border-labrys-green"
-                      />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <Label htmlFor="title">Job Title</Label>
-                      <Input
-                        id="title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Senior Developer"
-                        required
-                        className="bg-labrys-black border-labrys-lightgray focus:border-labrys-green"
-                      />
-                    </div>
-                  </div>
                   <div className="flex flex-col gap-2">
-                    <Label htmlFor="department">Department</Label>
+                    <Label htmlFor="department">CV</Label>
                     <Input
                       id="department"
-                      value={department}
-                      onChange={(e) => setDepartment(e.target.value)}
-                      placeholder="Engineering"
+                      value={resumeText}
+                      onChange={(e) => setResumeText(e.target.value)}
+                      placeholder="Paste your CV here..."
                       required
                       className="bg-labrys-black border-labrys-lightgray focus:border-labrys-green"
                     />
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <Label>Skills</Label>
-                    <div className="flex flex-wrap gap-2 mb-2">
-                      {skills.map((skill) => (
-                        <Badge
-                          key={skill}
-                          variant="secondary"
-                          className="flex items-center gap-1 bg-labrys-lightgray hover:bg-labrys-green hover:text-black transition-colors"
-                        >
-                          {skill}
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveSkill(skill)}
-                            className="ml-1 rounded-full hover:bg-black/20 p-1"
-                          >
-                            <X className="h-3 w-3" />
-                          </button>
-                        </Badge>
-                      ))}
-                    </div>
-                    <div className="flex gap-2">
-                      <Input
-                        value={newSkill}
-                        onChange={(e) => setNewSkill(e.target.value)}
-                        placeholder="Add a skill"
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault()
-                            handleAddSkill()
-                          }
-                        }}
-                        className="bg-labrys-black border-labrys-lightgray focus:border-labrys-green"
-                      />
-                      <Button
-                        type="button"
-                        onClick={handleAddSkill}
-                        variant="outline"
-                        className="border-labrys-lightgray hover:border-labrys-green hover:bg-labrys-lightgray"
-                      >
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
+                
                   <div className="flex justify-end gap-2">
                     <Button
                       type="button"

@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   const body = await request.json()
   const message = body.message
 
   const responseFromEliza = await fetch(
-    "http://localhost:3001/api/eliza/send-message",
+    "http://localhost:3000/api/eliza/send-message",
     {
       method: "POST",
       body: JSON.stringify({ message: message }),
@@ -14,5 +14,5 @@ export async function GET(request: NextRequest) {
 
   const data = await responseFromEliza.json()
 
-  return NextResponse.json({ message: data })
+  return NextResponse.json({ message: "IT WORKED" })
 }

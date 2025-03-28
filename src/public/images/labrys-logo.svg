@@ -1,0 +1,15 @@
+<svg width="163" height="40" viewBox="0 0 163 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0 0H20V40H0V0Z" fill="#000000"/>
+  <path d="M20 0H40V40H20V0Z" fill="#000000"/>
+  <path d="M40 0H60V40H40V0Z" fill="#000000"/>
+  <path d="M60 0H80V40H60V0Z" fill="#000000"/>
+  <path d="M80 0H100V40H80V0Z" fill="#D6E600"/>
+  <path d="M100 0H120V40H100V0Z" fill="#D6E600"/>
+  <text x="10" y="28" font-family="Arial" font-size="24" font-weight="bold" fill="#00E676">L</text>
+  <text x="30" y="28" font-family="Arial" font-size="24" font-weight="bold" fill="#00E676">A</text>
+  <text x="50" y="28" font-family="Arial" font-size="24" font-weight="bold" fill="#00E676">B</text>
+  <text x="70" y="28" font-family="Arial" font-size="24" font-weight="bold" fill="#00E676">R</text>
+  <text x="90" y="28" font-family="Arial" font-size="24" font-weight="bold" fill="#000000">Y</text>
+  <text x="110" y="28" font-family="Arial" font-size="24" font-weight="bold" fill="#000000">S</text>
+</svg>
+

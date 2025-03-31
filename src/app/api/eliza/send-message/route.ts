@@ -1,15 +1,14 @@
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const response = await fetch("http://localhost:3000/api/eliza/message", {
+    const response = await fetch("http://localhost:3000/a4244dfc-49a0-04ea-9602-cfcc1201be91/message", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "eliza",
-        prompt: " Create a worker " + body.message,
-        stream: false,
+        text: "Create a worker with the following resume: " + body.message,
+        //stream: false,
       }),
     })
     console.log(response)

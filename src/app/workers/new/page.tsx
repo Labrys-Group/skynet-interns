@@ -52,8 +52,10 @@ export default function NewWorkerPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    const port = process.env.NEXT_PUBLIC_API_PORT || 8080;
     
-    const response = await fetch('http://localhost:3000/api/worker/resume', {
+    const response = await fetch(`http://localhost:${port}/api/worker/resume`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: resumeText })

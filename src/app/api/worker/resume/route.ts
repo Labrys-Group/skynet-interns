@@ -4,11 +4,13 @@ export async function POST(request: NextRequest) {
   const body = await request.json()
   const message = body.message
 
+
+
   const responseFromEliza = await fetch(
-    "http://localhost:3000/api/eliza/send-message",
+    "http://localhost:3000/rebecca/message",
     {
       method: "POST",
-      body: JSON.stringify({ message: message }),
+      body: JSON.stringify({ text: message }),
     }
   )
 
